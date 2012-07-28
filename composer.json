@@ -1,5 +1,5 @@
 {
-    "name": "zerkalica/configuration-bundle",
+    "name": "zerkalica/millwright-configuration-bundle",
     "description": "This bundle provides a way to manage service containers configation data",
     "keywords": ["configuration", "util"],
     "type": "symfony-bundle",
