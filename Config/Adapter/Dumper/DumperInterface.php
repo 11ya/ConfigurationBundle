@@ -12,7 +12,7 @@ interface DumperInterface
      * @param mixed $data
      * @param array $options
      *
-     * @return mixed
+     * @return string
      */
     function dump($data, array $options = array());
 }

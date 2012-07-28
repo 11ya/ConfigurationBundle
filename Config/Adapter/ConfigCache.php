@@ -71,7 +71,7 @@ class ConfigCache implements CacheAdapterInterface
      * @param string $key
      * @param array  $data
      *
-     * @return mixed
+     * @return string
      *
      * @throws \InvalidArgumentException If no dumper found
      */
