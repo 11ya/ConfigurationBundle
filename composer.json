@@ -1,0 +1,21 @@
+{
+    "name": "zerkalica/configuration-bundle",
+    "description": "This bundle provides a way to manage service containers configation data",
+    "keywords": ["configuration", "util"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stefan Zerkalica",
+            "email": "zerkalica@gmai.com"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "2.1.*"
+    },
+    "autoload": {
+        "psr-0": { "Millwright\\ConfigurationBundle": "" }
+    },
+    "target-dir": "Millwright/ConfigurationBundle",
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,29 @@
+parameters:
+    millwright_configuration.manager.class: Millwright\ConfigurationBundle\Config\OptionManager
+    millwright_configuration.cache_warmer.class: Millwright\ConfigurationBundle\CacheWarmer\ConfigurationCacheWarmer
+    millwright_configuration.cache.class: Millwright\ConfigurationBundle\Config\Adapter\ConfigCache
+    millwright_configuration.array_dumper.class: Millwright\ConfigurationBundle\Config\Adapter\Dumper\ArrayDumper
+    millwright_configuration.options.class: Millwright\ConfigurationBundle\Config\Options
+
+services:
+    millwright_configuration.cache.adapter:
+        class: %millwright_configuration.cache.class%
+        arguments:
+            - %kernel.cache_dir%
+            - %kernel.debug%
+            - '%kernel.name%%kernel.environment%
+            - []
+        public: false
+
+    millwright_configuration.manager:
+        class: %millwright_configuration.manager.class%
+        arguments:
+            - @millwright_configuration.cache.adapter
+            - []
+
+    millwright_configuration.cache.warmer:
+        class: %millwright_configuration.cache_warmer.class%
+        arguments:
+            - @millwright_configuration.manager
+        tags:
+            - {name: kernel.cache_warmer}
