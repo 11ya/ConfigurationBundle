@@ -11,7 +11,7 @@ services:
         arguments:
             - %kernel.cache_dir%
             - %kernel.debug%
-            - '%kernel.name%%kernel.environment%
+            - '%kernel.name%%kernel.environment%'
             - []
         public: false
 
