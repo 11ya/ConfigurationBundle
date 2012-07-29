@@ -15,17 +15,20 @@ class ConfigurationHelper implements ConfigurationHelperInterface
 {
     protected $router;
     protected $reader;
+    protected $config;
 
     /**
      * Constructor
      *
      * @param RouterInterface $router
      * @param Reader          $reader
+     * @param array           $config
      */
-    public function __construct(RouterInterface $router, Reader $reader)
+    public function __construct(RouterInterface $router, Reader $reader, array $config = array())
     {
         $this->router = $router;
         $this->reader = $reader;
+        $this->config = $config;
     }
 
     protected function getConfigurations(array $annotations)
