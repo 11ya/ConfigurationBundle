@@ -2,7 +2,7 @@
 namespace Millwright\ConfigurationBundle\CacheWarmer;
 
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
-use Millwright\ConfigurationBundle\Config\OptionManagerInterface;
+use Millwright\ConfigurationBundle\Builder\OptionManagerInterface;
 
 /**
  * Configuration cache warmer
