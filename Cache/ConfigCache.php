@@ -1,9 +1,9 @@
 <?php
-namespace Millwright\ConfigurationBundle\Config\Adapter;
+namespace Millwright\ConfigurationBundle\Cache;
 
 use Symfony\Component\Config\ConfigCache as SymfonyConfigCache;
 
-use Millwright\ConfigurationBundle\Config\Adapter\Converter\DumperInterface;
+use Millwright\ConfigurationBundle\Cache\Dumper\DumperInterface;
 
 /**
  * Config cache implementation

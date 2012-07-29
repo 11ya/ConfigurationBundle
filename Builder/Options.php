@@ -1,5 +1,5 @@
 <?php
-namespace Millwright\ConfigurationBundle\Model;
+namespace Millwright\ConfigurationBundle\Builder;
 
 /**
  * Options container class

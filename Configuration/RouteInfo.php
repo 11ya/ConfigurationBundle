@@ -1,5 +1,5 @@
 <?php
-namespace Millwright\ConfigurationBundle\Model;
+namespace Millwright\ConfigurationBundle\Configuration;
 
 use Symfony\Component\Routing\Route;
 

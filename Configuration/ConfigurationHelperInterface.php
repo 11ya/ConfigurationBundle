@@ -1,5 +1,5 @@
 <?php
-namespace Millwright\ConfigurationBundle\Config;
+namespace Millwright\ConfigurationBundle\Configuration;
 
 use Millwright\ConfigurationBundle\Model\RouteInfo;
 use Millwright\ConfigurationBundle\Model\MethodInfo;
@@ -7,7 +7,7 @@ use Millwright\ConfigurationBundle\Model\MethodInfo;
 /**
  * Option builder helper interface
  */
-interface OptionBuilderHelperInterface
+interface ConfigurationHelperInterface
 {
     /**
      * Get some route parameters and annotations by route name

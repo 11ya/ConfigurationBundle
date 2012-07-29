@@ -1,5 +1,5 @@
 <?php
-namespace Millwright\ConfigurationBundle\Config;
+namespace Millwright\ConfigurationBundle\Builder;
 
 /**
  * Option manager interface

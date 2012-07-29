@@ -1,5 +1,5 @@
 <?php
-namespace Millwright\ConfigurationBundle\Config\Adapter;
+namespace Millwright\ConfigurationBundle\Cache;
 
 /**
  * Options cache adapter interface

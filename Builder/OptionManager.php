@@ -1,9 +1,9 @@
 <?php
-namespace Millwright\ConfigurationBundle\Config;
+namespace Millwright\ConfigurationBundle\Builder;
 
 use Symfony\Component\Config\ConfigCache;
 
-use Millwright\ConfigurationBundle\Config\Adapter\CacheAdapterInterface;
+use Millwright\ConfigurationBundle\Cache\CacheAdapterInterface;
 
 /**
  * Options manager

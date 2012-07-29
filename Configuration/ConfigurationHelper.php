@@ -1,17 +1,17 @@
 <?php
-namespace Millwright\ConfigurationBundle\Config;
+namespace Millwright\ConfigurationBundle\Configuration;
 
 use Symfony\Component\Routing\RouterInterface;
 use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\Routing\Route;
 
-use Millwright\ConfigurationBundle\Model\MethodInfo;
-use Millwright\ConfigurationBundle\Model\RouteInfo;
+use Millwright\ConfigurationBundle\Configuration\MethodInfo;
+use Millwright\ConfigurationBundle\Configuration\RouteInfo;
 
 /**
  * Option builder base class
  */
-class OptionBuilderHelper implements OptionBuilderHelperInterface
+class ConfigurationHelper implements ConfigurationHelperInterface
 {
     protected $router;
     protected $reader;

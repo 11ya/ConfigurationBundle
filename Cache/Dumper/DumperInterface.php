@@ -1,5 +1,5 @@
 <?php
-namespace Millwright\ConfigurationBundle\Config\Adapter\Dumper;
+namespace Millwright\ConfigurationBundle\Cache\Dumper;
 
 /**
  * Data dumper adapter interface
