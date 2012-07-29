@@ -3,7 +3,9 @@ parameters:
     millwright_configuration.cache_warmer.class: Millwright\ConfigurationBundle\CacheWarmer\ConfigurationCacheWarmer
     millwright_configuration.cache.class: Millwright\ConfigurationBundle\Config\Adapter\ConfigCache
     millwright_configuration.array_dumper.class: Millwright\ConfigurationBundle\Config\Adapter\Dumper\ArrayDumper
-    millwright_configuration.options.class: Millwright\ConfigurationBundle\Config\Options
+    millwright_configuration.options.class: Millwright\ConfigurationBundle\Model\Options
+
+    millwright_configuration.builder_helper.class: Millwright\ConfigurationBundle\Config\OptionBuilderHelper
 
 services:
     millwright_configuration.cache.adapter:
@@ -27,3 +29,9 @@ services:
             - @millwright_configuration.manager
         tags:
             - {name: kernel.cache_warmer}
+
+    millwright_configuration.builder_helper:
+        class: %millwright_configuration.builder_helper.class%
+        arguments:
+            - @router
+            - @annotation_reader

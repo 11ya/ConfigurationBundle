@@ -11,7 +11,7 @@ use Millwright\ConfigurationBundle\ContainerUtil;
  * Collect options, tagged by $optionsTag
  * And set them to option builder with id $optionBuilderId
  */
-class OptionCompilerPassBase implements CompilerPassInterface
+abstract class OptionCompilerPassBase implements CompilerPassInterface
 {
     protected $optionBuilderId;
     protected $optionsTag;
@@ -40,6 +40,5 @@ class OptionCompilerPassBase implements CompilerPassInterface
      */
     protected function preProcess(array & $config, Processor $processor, ContainerBuilder $container)
     {
-
     }
 }
