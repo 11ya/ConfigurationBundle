@@ -165,6 +165,7 @@ final class PhpUtil
         $reflection = new \ReflectionClass($class);
         foreach ($reflection->getConstants() as $name => $value) {
             if (!$localPrefix || $localPrefix === substr($name, 0, strlen($localPrefix))) {
+
                 $choices[$value] = $prefix . strtolower(
                     str_replace(
                         array($localPrefix, '_'), array('', $separator),
@@ -182,22 +183,20 @@ final class PhpUtil
      *
      * @param string $class       class name with constants
      * @param string $constant    constant
-     * @param string $prefix      array values prefix
-     * @param string $separator   replace underscores to this separator
-     * @param string $localPrefix constant prefix, ex. STATUS_
      *
      * @throws \InvalidArgumentException If constant not found in enum class
      */
-    static public function assertConstant($class, $constant, $prefix = '', $separator = '.', $localPrefix = '')
+    static public function assertConstant($class, $constant)
     {
-        $constants = self::convertConstantsToOptions($class, $prefix, $separator, $localPrefix);
+        $constants = self::convertConstantsToOptions($class);
 
         if (!isset($constants[$constant])) {
             throw new \InvalidArgumentException(strtr(
-                'Error constant: %const%, see %class%::|%prefix%', array(
+                'Error constant: %const%, available values: %values%', array(
                     '%const%'  => $constant,
                     '%class%'  => $class,
                     '%prefix%' => $prefix,
+                    '%values%' => implode(', ', array_keys($constants)),
                 )
             ));
         }
