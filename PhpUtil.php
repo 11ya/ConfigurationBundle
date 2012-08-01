@@ -56,26 +56,6 @@ final class PhpUtil
     }
 
     /**
-     * Set or modify date time object
-     *
-     * @param \DateTime|null &$to
-     * @param \DateTime|null $from
-     *
-     * @return \DateTime
-     */
-    static public function setDateTime(\DateTime &$to = null, \DateTime $from = null)
-    {
-        if (null === $to) {
-            $to = self::cloneObject($from);
-        } else {
-            $to->setTimestamp($from->getTimestamp());
-            $to->setTimezone($from->getTimezone());
-        }
-
-        return $to;
-    }
-
-    /**
      * Clone object, null-compatible
      *
      * @param object|null &$object
