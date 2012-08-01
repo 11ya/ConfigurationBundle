@@ -15,12 +15,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 abstract class Extension extends ExtensionBase
 {
-    protected $configRoot  = __DIR__;
+    protected $bundleRoot  = __DIR__;
     protected $isYml       = true;
-    protected $dbDriverMap = array(
-        'orm'     => 'getOrmConfigParts',
-        'mongodb' => 'getOdmConfigParts'
-    );
 
     /**
      * Get configuration files array
@@ -35,33 +31,13 @@ abstract class Extension extends ExtensionBase
     }
 
     /**
-     * Get configuration files array if orm detected
-     *
-     * @return array
-     */
-    protected function getOrmConfigParts()
-    {
-        return array();
-    }
-
-    /**
-     * Get configuration files array if odm detected
-     *
-     * @return array
-     */
-    protected function getOdmConfigParts()
-    {
-        return array();
-    }
-
-    /**
      * Get configuration files root directory
      *
      * @return string
      */
     protected function getConfigRoot()
     {
-        return dirname($this->configRoot) . '/Resources/config';
+        return dirname($this->bundleRoot) . '/Resources/config';
     }
 
     /**
@@ -71,9 +47,14 @@ abstract class Extension extends ExtensionBase
      *
      * @return Loader\XmlFileLoader|Loader\YamlFileLoader
      */
-    protected function getLoader(ContainerBuilder $container)
+    protected function getLoader(ContainerBuilder $container, $rootSuffix = null)
     {
-        $locator = new FileLocator($this->getConfigRoot());
+        $root = $this->getConfigRoot();
+        if ($rootSuffix) {
+            $root .= DIRECTORY_SEPARATOR . $rootSuffix;
+        }
+
+        $locator = new FileLocator($root);
 
         return $this->isYml
             ? new Loader\YamlFileLoader($container, $locator)
@@ -90,17 +71,23 @@ abstract class Extension extends ExtensionBase
             ? $this->processConfiguration($configuration, $configs)
             : array();
 
+        $driver = isset($config['db_driver']) ? $config['db_driver'] : 'orm';
+
         $loader = $this->getLoader($container);
 
-        foreach ($this->getConfigParts() as $part) {
+        $parts = $this->getConfigParts();
+
+        foreach ($parts as $part) {
             $loader->load($part);
         }
 
-        $driver = isset($config['db_driver']) ? $config['db_driver'] : 'orm';
-        $method = $this->dbDriverMap[$driver];
+        $loader = $this->getLoader($container, $driver);
 
-        foreach ($this->$method() as $part) {
-            $loader->load($part);
+        foreach ($parts as $part) {
+            try {
+                $loader->load($part);
+            } catch (\InvalidArgumentException $e) {
+            }
         }
 
         if ($config) {

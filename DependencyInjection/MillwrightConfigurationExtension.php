@@ -12,5 +12,5 @@ use Millwright\ConfigurationBundle\Extension;
  */
 class MillwrightConfigurationExtension extends Extension
 {
-    protected $configRoot = __DIR__;
+    protected $bundleRoot = __DIR__;
 }
