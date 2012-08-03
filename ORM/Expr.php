@@ -20,25 +20,25 @@ class Expr extends BaseExpr
     /**
      * Sql formatted date string
      *
-     * @param \DateTime $date
+     * @param \DateTime|null $date
      *
      * @return \Doctrine\ORM\Query\Expr\Literal
      */
-    public function date(\DateTime $date)
+    public function date(\DateTime $date = null)
     {
-        return $this->literal(DateUtil::sqlDate($date));
+        return $date ? $this->literal(DateUtil::sqlDate($date)) : 'NULL';
     }
 
     /**
      * Sql formatted date time string
      *
-     * @param \DateTime $date
+     * @param \DateTime|null $date
      *
      * @return \Doctrine\ORM\Query\Expr\Literal
      */
-    public function dateTime(\DateTime $date)
+    public function dateTime(\DateTime $date = null)
     {
-        return $this->literal(DateUtil::sqlDateTime($date));
+        return $date ? $this->literal(DateUtil::sqlDateTime($date)) : 'NULL';
     }
 
     /**
