@@ -6,6 +6,9 @@ namespace Millwright\ConfigurationBundle;
  */
 final class DateUtil
 {
+    const SQL_DATE      = 'Y-m-d';
+    const SQL_DATE_TIME = 'Y-m-d H:i:s';
+
     /**
      * Set or modify date time object
      *
@@ -16,11 +19,15 @@ final class DateUtil
      */
     static public function setDateTime(\DateTime &$to = null, \DateTime $from = null)
     {
-        if (null === $to) {
-            $to = PhpUtil::cloneObject($from);
+        if (null === $from) {
+            $to = null;
         } else {
-            $to->setTimestamp($from->getTimestamp());
-            $to->setTimezone($from->getTimezone());
+            if (null === $to) {
+                $to = PhpUtil::cloneObject($from);
+            } else {
+                $to->setTimestamp($from->getTimestamp());
+                $to->setTimezone($from->getTimezone());
+            }
         }
 
         return $to;
@@ -62,5 +69,49 @@ final class DateUtil
         $newDate->add($interval);
 
         return $newDate;
+    }
+
+    /**
+     * Get sql-formatted date
+     *
+     * @param \DateTime $date
+     *
+     * @return string
+     */
+    static public function sqlDate(\DateTime $date)
+    {
+        return $date->format(self::SQL_DATE);
+    }
+
+    /**
+     * Get sql-formatted date time
+     *
+     * @param \DateTime $date
+     *
+     * @return string
+     */
+    static public function sqlDateTime(\DateTime $date)
+    {
+        return $date->format(self::SQL_DATE_TIME);
+    }
+
+    /**
+     * Get sql-formatted date time, aligned to day start or end
+     *
+     * @param \DateTime $date
+     * @param boolean   $isStart is start of the day
+     *
+     * @return string
+     */
+    static public function sqlDateTimeAligned(\DateTime $date, $isStart)
+    {
+        $date = PhpUtil::cloneObject($date);
+        if ($isStart) {
+            $date->setTime(0, 0, 0);
+        } else {
+            $date->setTime(23, 59, 59);
+        }
+
+        return self::sqlDateTime($date);
     }
 }
