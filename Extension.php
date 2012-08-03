@@ -71,27 +71,39 @@ abstract class Extension extends ExtensionBase
             ? $this->processConfiguration($configuration, $configs)
             : array();
 
-        $driver = isset($config['db_driver']) ? $config['db_driver'] : 'orm';
+        $driverProvider = isset($config['db_provider']) ? $config['db_provider'] : 'doctrine';
+        $driver         = isset($config['db_driver']) ? $config['db_driver'] : 'orm';
 
-        $loader = $this->getLoader($container);
+        $this->loadFromNamespace($container);
 
-        $parts = $this->getConfigParts();
-
-        foreach ($parts as $part) {
-            $loader->load($part);
+        if ($driverProvider) {
+            $this->loadFromNamespace($container, $driverProvider);
         }
 
-        $loader = $this->getLoader($container, $driver);
-
-        foreach ($parts as $part) {
-            try {
-                $loader->load($part);
-            } catch (\InvalidArgumentException $e) {
-            }
+        if ($driver) {
+            $this->loadFromNamespace($container, $driverProvider . DIRECTORY_SEPARATOR . $driver);
         }
 
         if ($config) {
             $this->copyParameters($config, $container);
+        }
+    }
+
+    /**
+     * Load data from all files in given namespace
+     *
+     * @param ContainerBuilder $container
+     * @param string|null      $namespace
+     */
+    protected function loadFromNamespace(ContainerBuilder $container, $namespace = null)
+    {
+        $loader = $this->getLoader($container, $namespace);
+
+        foreach ($this->getConfigParts() as $part) {
+            try {
+                $loader->load($part);
+            } catch (\InvalidArgumentException $e) {
+            }
         }
     }
 

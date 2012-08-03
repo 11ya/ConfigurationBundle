@@ -3,6 +3,7 @@ namespace Millwright\ConfigurationBundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\Config\Definition\Processor;
 
 /**
  * Configuration static util class
@@ -26,7 +27,8 @@ final class ContainerUtil
         $arg,
         ContainerBuilder $container,
         $aggregate = false
-    ) {
+    )
+    {
         $definitions = self::getDefinitionsByTag($tag, $container, $aggregate);
 
         return $container->getDefinition($serviceName)->replaceArgument($arg, $definitions);
@@ -81,19 +83,29 @@ final class ContainerUtil
     /**
      * Collect configuration from tagged services and merge them together
      *
-     * @param string           $tag
+     * @param string           $tag services, that extends \Millwright\ConfigurationBundle\Builder\Options
      * @param ContainerBuilder $container
+     * @param \Closure|null    $normalizer function(array &$config, Processor $processor, ContainerBuilder $container)
      *
      * @return array merged configuration
      */
-    public static function collectConfiguration($tag, ContainerBuilder $container)
+    public static function collectConfiguration($tag, ContainerBuilder $container, \Closure $normalizer = null)
     {
         $definitions = self::getDefinitionsByTag($tag, $container);
 
         $config = array();
         foreach ($definitions as $definition) {
             $bundleConfig = $definition->getArgument(0);
+            $attributes   = $definition->getTag($tag);
+            $type         = isset($attributes[0]['type']) ? $attributes[0]['type'] : null;
+            if ($type) {
+                $bundleConfig = array($type => $bundleConfig);
+            }
+
             $config       = PhpUtil::merge($config, $bundleConfig);
+        }
+        if (null !== $normalizer) {
+            $normalizer($config, new Processor, $container);
         }
 
         return $config;
