@@ -181,4 +181,39 @@ final class PhpUtil
             ));
         }
     }
+
+    /**
+     * Assertion like ::assert(instanceof Class)
+     *
+     * @param boolean     $condition
+     * @param string|null $message
+     *
+     * @throws \InvalidArgumentException If assertion failed
+     */
+    static public function assert($condition, $message = null)
+    {
+        if (!(boolean) $condition) {
+            throw new \InvalidArgumentException(strtr('Assertion failed %message%', array(
+                '%message%' => $message,
+            )));
+        }
+    }
+
+    /**
+     * Assertion if object is instance of class
+     *
+     * @param object      $object
+     * @param string|null $class
+     *
+     * @throws \InvalidArgumentException If assertion failed
+     */
+    static public function assertObject($object, $class)
+    {
+        if (!$object instanceof $class) {
+            throw new \InvalidArgumentException(strtr('Object %object% does not implement %class%', array(
+                '%object%' => is_object($object) ? get_class($object): '',
+                '%class%' => $class,
+            )));
+        }
+    }
 }
