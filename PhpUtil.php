@@ -216,4 +216,23 @@ final class PhpUtil
             )));
         }
     }
+
+    /**
+     * Array assertion
+     *
+     * @param string $key
+     * @param array  $array
+     * @param string|null  $message
+     *
+     * @throws \InvalidArgumentException If key not found in array
+     */
+    static public function assertArray($key, $array, $message = null)
+    {
+        if (!is_array($array) || !array_key_exists($key, $array)) {
+            $message = $message ? $message : 'Key %key% not found in array';
+            throw new \InvalidArgumentException(strtr($message, array(
+                    '%key%' => $key,
+                )));
+        }
+    }
 }

@@ -17,16 +17,22 @@ class Expr extends BaseExpr
     const STRING_EQ     = 3;
     const STRING_BOTH   = 4;
 
+    protected function dateExpr(\DateTime $date = null, $pattern = DateUtil::SQL_DATE, $empty = 'NULL')
+    {
+        return $date ? $this->literal($date->format($pattern)) : $empty;
+    }
+
     /**
      * Sql formatted date string
      *
      * @param \DateTime|null $date
+     * @param string $empty
      *
      * @return \Doctrine\ORM\Query\Expr\Literal
      */
     public function date(\DateTime $date = null)
     {
-        return $date ? $this->literal(DateUtil::sqlDate($date)) : 'NULL';
+        return $this->dateExpr($date, DateUtil::SQL_DATE, 'NULL');
     }
 
     /**
@@ -38,7 +44,17 @@ class Expr extends BaseExpr
      */
     public function dateTime(\DateTime $date = null)
     {
-        return $date ? $this->literal(DateUtil::sqlDateTime($date)) : 'NULL';
+        return $this->dateExpr($date, DateUtil::SQL_DATE_TIME, 'NULL');
+    }
+
+    public function whereDate(\DateTime $date = null)
+    {
+        return $this->dateExpr($date, DateUtil::SQL_DATE, 'IS NULL');
+    }
+
+    public function whereDateTime(\DateTime $date = null)
+    {
+        return $this->dateExpr($date, DateUtil::SQL_DATE_TIME, 'IS NULL');
     }
 
     /**
