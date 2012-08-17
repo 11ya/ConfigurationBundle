@@ -114,12 +114,14 @@ final class ContainerUtil
             $bundleConfig = $definition->getArgument(0);
             $attributes   = $definition->getTag($tag);
             $type         = isset($attributes[0]['type']) ? $attributes[0]['type'] : null;
+
             if ($type) {
                 $bundleConfig = array($type => $bundleConfig);
             }
 
             $config = PhpUtil::merge($config, $bundleConfig);
         }
+
         if (null !== $normalizer) {
             $normalizer($config, new Processor, $container);
         }
