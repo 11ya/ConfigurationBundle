@@ -15,7 +15,7 @@ final class ContainerUtil
      *
      * @param string           $tag
      * @param string           $serviceName
-     * @param integer          $arg
+     * @param integer          $arg 
      * @param ContainerBuilder $container
      * @param boolean          $aggregate if true - result is array of definitions arrays, aggregated by type key
      *
@@ -27,11 +27,27 @@ final class ContainerUtil
         $arg,
         ContainerBuilder $container,
         $aggregate = false
-    )
-    {
+    ) {
         $definitions = self::getDefinitionsByTag($tag, $container, $aggregate);
 
         return $container->getDefinition($serviceName)->replaceArgument($arg, $definitions);
+    }
+
+    /**
+     * Get definitions by tag, sort, associate with keys and set specified parameter
+     *
+     * @param string           $tag
+     * @param string           $paramName
+     * @param ContainerBuilder $container
+     * @param boolean          $aggregate if true - result is array of definitions arrays, aggregated by type key
+     *
+     * @return Definition
+     */
+    public static function addDefinitionsToParameter($tag, $paramName, ContainerBuilder $container, $aggregate = false)
+    {
+        $definitions = self::getDefinitionsByTag($tag, $container, $aggregate);
+
+        return $container->setParameter($paramName, $definitions);
     }
 
     /**
@@ -81,7 +97,7 @@ final class ContainerUtil
     }
 
     /**
-     * Collect configuration from tagged services and merge them together
+     * Collect configuration from tagged service arguments and merge them together
      *
      * @param string           $tag services, that extends \Millwright\ConfigurationBundle\Builder\Options
      * @param ContainerBuilder $container
@@ -102,7 +118,7 @@ final class ContainerUtil
                 $bundleConfig = array($type => $bundleConfig);
             }
 
-            $config       = PhpUtil::merge($config, $bundleConfig);
+            $config = PhpUtil::merge($config, $bundleConfig);
         }
         if (null !== $normalizer) {
             $normalizer($config, new Processor, $container);
