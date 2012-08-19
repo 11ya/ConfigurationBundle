@@ -17,6 +17,7 @@ abstract class Extension extends ExtensionBase
 {
     protected $bundleRoot  = __DIR__;
     protected $isYml       = true;
+    protected $flattenParameters = false;
 
     /**
      * Get configuration files array
@@ -115,9 +116,27 @@ abstract class Extension extends ExtensionBase
      */
     protected function copyParameters(array $config, ContainerBuilder $container)
     {
+        if ($this->flattenParameters) {
+            $config = $this->flattenArray($config);
+        }
+
         foreach ($config as $key => $value) {
             $key = $this->getAlias() . '.' . $key;
             $container->setParameter($key, $value);
         }
+    }
+
+    protected function flattenArray(array $config, $prefix = '')
+    {
+        $result = array();
+        foreach ($config as $key => $value) {
+            if (is_array($value)) {
+                $result = array_merge($result, $this->flattenArray($value, $key . '.'));
+            } else {
+                $result[$prefix . $key] = $value;
+            }
+        }
+
+        return $result;
     }
 }

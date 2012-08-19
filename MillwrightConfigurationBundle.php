@@ -10,6 +10,17 @@ use Millwright\ConfigurationBundle\DependencyInjection\Compiler\AddBuildersCompi
  */
 class MillwrightConfigurationBundle extends Bundle
 {
+
+    /**
+     * {@inheritDoc}
+     */
+    public function boot()
+    {
+        if (!interface_exists('JsonSerializable')) {
+            include __DIR__ . DIRECTORY_SEPARATOR . 'Workaround' . DIRECTORY_SEPARATOR . 'JsonSerializable';
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
