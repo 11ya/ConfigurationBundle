@@ -34,6 +34,18 @@ final class DateUtil
     }
 
     /**
+     * Explode date
+     *
+     * @param \DateTime $date
+     *
+     * @return array(year, month, day, hour, minute, second)
+     */
+    static public function explodeDate(\DateTime $date)
+    {
+        return explode('-', $date->format('Y-m-d-H-i-s'));
+    }
+
+    /**
      * Add time interval
      *
      * @param \DateTime $date
