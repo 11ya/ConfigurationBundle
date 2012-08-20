@@ -17,7 +17,7 @@ class MillwrightConfigurationBundle extends Bundle
     public function boot()
     {
         if (!interface_exists('JsonSerializable')) {
-            include __DIR__ . DIRECTORY_SEPARATOR . 'Workaround' . DIRECTORY_SEPARATOR . 'JsonSerializable';
+            include __DIR__ . DIRECTORY_SEPARATOR . 'Workaround' . DIRECTORY_SEPARATOR . 'JsonSerializable.php';
         }
     }
 
