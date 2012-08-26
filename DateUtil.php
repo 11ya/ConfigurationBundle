@@ -58,7 +58,7 @@ final class DateUtil
     static public function addTimeInterval(\DateTime $date, $hour = 0, $minute = 0, $second = 0)
     {
         $newDate = PhpUtil::cloneObject($date);
-        $interval = new \DateInterval(sprintf('PT%sH%sM%sS',$hour, $minute, $second));
+        $interval = new \DateInterval(sprintf('PT%sH%sM%sS', $hour, $minute, $second));
         $newDate->add($interval);
 
         return $newDate;
