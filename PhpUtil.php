@@ -168,15 +168,15 @@ final class PhpUtil
      */
     static public function assertConstant($class, $constant)
     {
-        $constants = self::convertConstantsToOptions($class);
+        $refClass = new \ReflectionClass($class);
+        $constants = $refClass->getConstants();
 
-        if (!isset($constants[$constant])) {
+        if (!in_array($constant, $constants)) {
             throw new \InvalidArgumentException(strtr(
                 'Error constant: %const%, available values: %values%', array(
                     '%const%'  => $constant,
                     '%class%'  => $class,
-                    '%prefix%' => $prefix,
-                    '%values%' => implode(', ', array_keys($constants)),
+                    '%values%' => implode(', ', $refClass->getConstants()),
                 )
             ));
         }
