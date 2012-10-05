@@ -88,6 +88,8 @@ abstract class Extension extends ExtensionBase
         if ($config) {
             $this->copyParameters($config, $container);
         }
+
+        return $config;
     }
 
     /**
