@@ -30,10 +30,20 @@ services:
         arguments:
             - @millwright_configuration.manager
         tags:
-            - {name: kernel.cache_warmer}
+            - { name: kernel.cache_warmer }
 
     millwright_configuration.builder_helper:
         class: %millwright_configuration.builder_helper.class%
         arguments:
             - @router
             - @annotation_reader
+
+    millwright_configuration.registry:
+        class: Millwright\ConfigurationBundle\Builder\OptionRegistry
+
+    millwright_configuration.twig.extension:
+        class: Millwright\ConfigurationBundle\Twig\ConfigurationExtension
+        arguments:
+            - @millwright_configuration.registry
+        tags:
+            - { name: twig.extension }
