@@ -29,11 +29,12 @@ class ConfigurationExtension extends \Twig_Extension
     {
         return array(
             'options_registry' => new \Twig_Function_Method($this, 'getOptions'),
+            'options_query'    => new \Twig_Function_Method($this, 'getQuery'),
         );
     }
 
     /**
-     * Get all stored in registry options
+     * Gets all stored in registry options
      *
      * @param  string|null $namespace
      *
@@ -45,6 +46,23 @@ class ConfigurationExtension extends \Twig_Extension
     }
 
     /**
+     * Gets all stored in registry options as a GET query (?q=w&e=r)
+     *
+     * @param  string $namespace
+     * @param  array  $overrides
+     *
+     * @return string
+     */
+    public function getQuery($namespace, array $overrides = null)
+    {
+        $options = $this->options->getOptions($namespace);
+
+        return http_build_query(array_merge($options, (array) $overrides), null, '&');
+    }
+
+    /**
+     * Get name
+     *
      * @return string
      */
     public function getName()

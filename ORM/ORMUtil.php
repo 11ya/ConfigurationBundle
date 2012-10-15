@@ -17,12 +17,10 @@ class ORMUtil
      *
      * @return QueryBuilder
      */
-    static public function createUpdateQueryBuilder(EntityRepository $repository, $alias = null)
+    public static function createUpdateQueryBuilder(EntityRepository $repository, $alias = null)
     {
-        $className = $repository->getClassName();
-
-        if (null === $alias) {
-            $alias = lcfirst($className[0]);
+        if (!$alias) {
+            $alias = self::getAlias($repository);
         }
 
         $qb = $repository->createQueryBuilder($alias);
@@ -30,12 +28,41 @@ class ORMUtil
         return $qb->update($className, $alias);
     }
 
-    static public function createDeleteQueryBuilder(EntityRepository $repository, $alias = null)
+    /**
+     * Create select query builder
+     *
+     * @param EntityRepository $repository
+     * @param null|string      $alias
+     *
+     * @return QueryBuilder
+     */
+    public static function createSelectQueryBuilder(EntityRepository $repository, $alias = null)
+    {
+        if (!$alias) {
+            $alias = self::getAlias($repository);
+        }
+
+        return $repository->createQueryBuilder($alias);
+    }
+
+    /**
+     * Get alias by repository
+     *
+     * @param EntityRepository $repository
+     *
+     * @return string
+     */
+    public static function getAlias(EntityRepository $repository)
     {
         $className = $repository->getClassName();
 
-        if (null === $alias) {
-            $alias = lcfirst($className[0]);
+        return strtolower($className);
+    }
+
+    public static function createDeleteQueryBuilder(EntityRepository $repository, $alias = null)
+    {
+        if (!$alias) {
+            $alias = self::getAlias($repository);
         }
 
         $qb = $repository->createQueryBuilder($alias);

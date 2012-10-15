@@ -3,6 +3,7 @@ namespace Millwright\ConfigurationBundle\Traits\Doctrine\ORM;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Millwright\ConfigurationBundle\ORM\ORMUtil;
 
 trait QueryBuilderTrait
 {
@@ -12,18 +13,17 @@ trait QueryBuilderTrait
     //protected $repository;
 
     /**
-     * @var string
-     */
-    protected $alias;
-
-    /**
      * Get query builder for select
      *
      * @return QueryBuilder
      */
-    protected function getSelectBuilder()
+    protected function getSelectBuilder($alias = null)
     {
-        return $this->repository->createQueryBuilder($this->alias);
+        if (!$alias) {
+            $alias = ORMUtil::getAlias($this->repository);
+        }
+
+        return $this->repository->createQueryBuilder($alias);
     }
 
     /**
@@ -31,17 +31,17 @@ trait QueryBuilderTrait
      *
      * @return QueryBuilder
      */
-    protected function getUpdateBuilder()
+    protected function getUpdateBuilder($alias = null)
     {
-        return ORMUtil::createUpdateQueryBuilder($this->repository, $this->alias);
+        return ORMUtil::createUpdateQueryBuilder($this->repository, $alias);
     }
     /**
      * Get query builder for delete
      *
      * @return QueryBuilder
      */
-    protected function getDeleteBuilder()
+    protected function getDeleteBuilder($alias = null)
     {
-        return ORMUtil::createDeleteQueryBuilder($this->repository, $this->alias);
+        return ORMUtil::createDeleteQueryBuilder($this->repository, $alias);
     }
 }
