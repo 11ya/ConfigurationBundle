@@ -5,10 +5,24 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * Statuc orm util class
+ * Static orm util class
  */
 class ORMUtil
 {
+    /**
+     * Get alias by repository
+     *
+     * @param EntityRepository $repository
+     *
+     * @return string
+     */
+    public static function getAlias(EntityRepository $repository)
+    {
+        $parts = explode('\\', $repository->getClassName());
+
+        return lcfirst($parts[sizeof($parts) - 1]);
+    }
+
     /**
      * Get update query builder
      *
@@ -46,19 +60,13 @@ class ORMUtil
     }
 
     /**
-     * Get alias by repository
+     * Create query builder for delete
      *
      * @param EntityRepository $repository
+     * @param null|string      $alias
      *
-     * @return string
+     * @return QueryBuilder
      */
-    public static function getAlias(EntityRepository $repository)
-    {
-        $className = $repository->getClassName();
-
-        return strtolower($className);
-    }
-
     public static function createDeleteQueryBuilder(EntityRepository $repository, $alias = null)
     {
         if (!$alias) {
