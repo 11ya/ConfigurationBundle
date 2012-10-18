@@ -5,11 +5,19 @@ parameters:
     millwright_configuration.options.class: Millwright\ConfigurationBundle\Builder\Options
 
     millwright_configuration.cache.class: Millwright\ConfigurationBundle\Cache\ConfigCache
+    millwright_configuration.cache.apc.class: Millwright\ConfigurationBundle\Cache\ApcCache
+
     millwright_configuration.array_dumper.class: Millwright\ConfigurationBundle\Cache\Dumper\ArrayDumper
 
     millwright_configuration.builder_helper.class: Millwright\ConfigurationBundle\Configuration\ConfigurationHelper
 
 services:
+    millwright_configuration.cache.adapter.apc:
+        class: %millwright_configuration.cache.apc.class%
+        arguments:
+            - 30
+        public: false
+
     millwright_configuration.cache.adapter:
         class: %millwright_configuration.cache.class%
         arguments:

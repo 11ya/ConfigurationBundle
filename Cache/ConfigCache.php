@@ -99,10 +99,11 @@ class ConfigCache implements CacheAdapterInterface
     /**
      * {@inheritDoc}
      */
-    public function read($key)
+    public function read($key, &$success)
     {
-        $cache = $this->createConfigCache($key);
+        $cache   = $this->createConfigCache($key);
+        $success = null !== $cache && $cache->isFresh();
 
-        return null !== $cache && $cache->isFresh() ? include_once $cache : null;
+        return $success ? include_once $cache : null;
     }
 }

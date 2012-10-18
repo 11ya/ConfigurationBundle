@@ -10,8 +10,6 @@ use Millwright\ConfigurationBundle\Cache\CacheAdapterInterface;
  */
 class OptionManager implements OptionManagerInterface
 {
-    protected $buildedOptions = array();
-
     protected $cache;
     protected $optionBuilders;
 
@@ -32,21 +30,15 @@ class OptionManager implements OptionManagerInterface
      */
     public function getOptions($key)
     {
-        $data = null;
-        if (array_key_exists($key, $this->buildedOptions)) {
-            $data = & $this->buildedOptions[$key];
-        } else {
-            $builder = $this->getBuilder($key);
-            if ($builder->isCacheable()) {
-                $data = $this->cache->read($key);
-                if (null === $data) {
-                    $data = $builder->build();
-                    $this->cache->write($key, $data);
-                    $this->buildedOptions[$key] = $data;
-                }
-            } else {
+        $builder = $this->getBuilder($key);
+        if ($builder->isCacheable()) {
+            $data = $this->cache->read($key, $success);
+            if (!$success) {
                 $data = $builder->build();
+                $this->cache->write($key, $data);
             }
+        } else {
+            $data = $builder->build();
         }
 
         return $data;

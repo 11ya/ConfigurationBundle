@@ -9,17 +9,18 @@ interface CacheAdapterInterface
     /**
      * Read data from cache
      *
-     * @param string $key
+     * @param string  $key
+     * @param boolean &$success
      *
      * @return array
      */
-    function read($key);
+    function read($key, &$success);
 
     /**
      * Write data to cache
      *
-     * @param string      $key
-     * @param array       $data
+     * @param string $key
+     * @param array  $data
      *
      * @return void
      */
