@@ -47,7 +47,7 @@ services:
             - @annotation_reader
 
     millwright_configuration.registry:
-        class: Millwright\ConfigurationBundle\Builder\OptionRegistry
+        class: Millwright\Util\Request\OptionRegistry
 
     millwright_configuration.twig.extension:
         class: Millwright\ConfigurationBundle\Twig\ConfigurationExtension

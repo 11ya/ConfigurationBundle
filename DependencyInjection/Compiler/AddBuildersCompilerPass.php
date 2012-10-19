@@ -4,7 +4,7 @@ namespace Millwright\ConfigurationBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
-use Millwright\ConfigurationBundle\ContainerUtil as Util;
+use Millwright\Util\DependencyInjection\ContainerUtil as Util;
 /**
  * FormCompilerPass
  */

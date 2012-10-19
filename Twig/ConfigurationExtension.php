@@ -1,7 +1,7 @@
 <?php
 namespace Millwright\ConfigurationBundle\Twig;
 
-use Millwright\ConfigurationBundle\Builder\OptionRegistryInterface;
+use Millwright\Util\Request\OptionRegistryInterface;
 
 /**
  * Twig extension for Bootstrap helpers
@@ -55,9 +55,7 @@ class ConfigurationExtension extends \Twig_Extension
      */
     public function getQuery($namespace, array $overrides = null)
     {
-        $options = $this->options->getOptions($namespace);
-
-        return http_build_query(array_merge($options, (array) $overrides), null, '&');
+        return $this->options->getQuery($namespace, $overrides);
     }
 
     /**

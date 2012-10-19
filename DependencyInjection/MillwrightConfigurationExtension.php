@@ -3,7 +3,7 @@ namespace Millwright\ConfigurationBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-use Millwright\ConfigurationBundle\Extension;
+use Millwright\Util\DependencyInjection\Extension;
 
 /**
  * This is the class that loads and manages your bundle configuration

@@ -11,7 +11,8 @@
         }
     ],
     "require": {
-        "symfony/framework-bundle": "2.1.*"
+        "symfony/framework-bundle": ">=2.1",
+        "zerkalica/millwright-util": "dev-master"
     },
     "autoload": {
         "psr-0": { "Millwright\\ConfigurationBundle": "" }
