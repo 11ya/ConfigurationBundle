@@ -3,6 +3,8 @@ namespace Millwright\ConfigurationBundle\Configuration;
 
 use Symfony\Component\Routing\Route;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
  * Additional parameters from Route
  */
@@ -41,10 +43,11 @@ class RouteInfo
     /**
      * Constructor
      *
+     * @param ContainerInterface               $container
      * @param \Symfony\Component\Routing\Route $route
      * @param MethodInfo|null                  $methodInfo
      */
-    public function __construct(Route $route, MethodInfo $methodInfo = null)
+    public function __construct(ContainerInterface $container, Route $route, MethodInfo $methodInfo = null)
     {
         $this->methodInfo = $methodInfo;
 
@@ -52,7 +55,15 @@ class RouteInfo
         $tokens        = $compiledRoute->getVariables();
         $defaults      = $route->getDefaults();
 
-        $params = explode('::', $defaults['_controller']);
+        $controller = $defaults['_controller'];
+        $count = substr_count($controller, ':');
+        if (2 == $count) {
+            $params = explode('::', $controller);
+        } else {
+            $params = explode(':', $controller);
+            $params[0] = get_class($container->get($params[0]));
+        }
+
         unset($defaults['_controller']);
 
         $this->className          = $params[0];

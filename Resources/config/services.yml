@@ -45,6 +45,7 @@ services:
         arguments:
             - @router
             - @annotation_reader
+            - @service_container
 
     millwright_configuration.registry:
         class: Millwright\Util\Request\OptionRegistry

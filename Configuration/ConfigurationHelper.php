@@ -4,6 +4,7 @@ namespace Millwright\ConfigurationBundle\Configuration;
 use Symfony\Component\Routing\RouterInterface;
 use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\Routing\Route;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Millwright\ConfigurationBundle\Configuration\MethodInfo;
 use Millwright\ConfigurationBundle\Configuration\RouteInfo;
@@ -16,18 +17,23 @@ class ConfigurationHelper implements ConfigurationHelperInterface
     protected $router;
     protected $reader;
     protected $config;
+    protected $container;
 
     /**
      * Constructor
      *
-     * @param RouterInterface $router
-     * @param Reader          $reader
-     * @param array           $config
+     * @param RouterInterface    $router
+     * @param Reader             $reader
+     * @param ContainerInterface $container
+     * @param array              $config
      */
-    public function __construct(RouterInterface $router, Reader $reader, array $config = array())
+    public function __construct(RouterInterface $router, Reader $reader, ContainerInterface $container, array $config = array())
     {
         $this->router = $router;
         $this->reader = $reader;
+
+        $this->container = $container;
+
         $this->config = $config;
     }
 
@@ -89,7 +95,7 @@ class ConfigurationHelper implements ConfigurationHelperInterface
             return null;
         }
 
-        $routeInfo  = new RouteInfo($route);
+        $routeInfo  = new RouteInfo($this->container, $route);
         $methodInfo = $this->getMethodInfo($routeInfo->getClassName(), $routeInfo->getMethodName(), $name);
 
         $routeInfo->setMethodInfo($methodInfo);
