@@ -9,13 +9,20 @@ class ApcCache implements CacheAdapterInterface
     protected $ttl = 60;
 
     /**
+     * @var string
+     */
+    protected $namespace;
+
+    /**
      * Constructor
      *
      * @param integer $ttl
+     * @param string  $namespace
      */
-    public function __construct($ttl)
+    public function __construct($ttl, $namespace = '')
     {
-        $this->ttl = $ttl;
+        $this->ttl       = $ttl;
+        $this->namespace = $namespace;
     }
 
     /**
@@ -31,7 +38,7 @@ class ApcCache implements CacheAdapterInterface
      */
     public function write($key, array $data)
     {
-        apc_store($key, $data, $this->ttl);
+        apc_store($this->getKey($key), $data, $this->ttl);
     }
 
     /**
@@ -39,6 +46,11 @@ class ApcCache implements CacheAdapterInterface
      */
     public function read($key, &$success)
     {
-        return apc_fetch($key, $success);
+        return apc_fetch($this->getKey($key), $success);
+    }
+
+    protected function getKey($key)
+    {
+        return $this->namespace . $key;
     }
 }
