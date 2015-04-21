@@ -12,11 +12,10 @@
     ],
     "require": {
         "symfony/framework-bundle": ">=2.1",
-        "zerkalica/millwright-util": "dev-master"
+        "zerkalica/millwright-util": "1.*"
     },
     "autoload": {
         "psr-0": { "Millwright\\ConfigurationBundle": "" }
     },
-    "target-dir": "Millwright/ConfigurationBundle",
-    "minimum-stability": "dev"
+    "target-dir": "Millwright/ConfigurationBundle"
 }
