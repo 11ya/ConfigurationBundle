@@ -14,40 +14,40 @@ parameters:
 
 services:
     millwright_configuration.cache.adapter.apc:
-        class: %millwright_configuration.cache.apc.class%
+        class: "%millwright_configuration.cache.apc.class%"
         arguments:
             - 30
-            - %millwright_configuration.cache.apc.namespace%
+            - "%millwright_configuration.cache.apc.namespace%"
         public: false
 
     millwright_configuration.cache.adapter:
-        class: %millwright_configuration.cache.class%
+        class: "%millwright_configuration.cache.class%"
         arguments:
-            - %kernel.cache_dir%
-            - %kernel.debug%
-            - '%kernel.name%%kernel.environment%'
+            - "%kernel.cache_dir%"
+            - "%kernel.debug%"
+            - "%kernel.name%%kernel.environment%"
             - []
         public: false
 
     millwright_configuration.manager:
-        class: %millwright_configuration.manager.class%
+        class: "%millwright_configuration.manager.class%"
         arguments:
-            - @millwright_configuration.cache.adapter
+            - "@millwright_configuration.cache.adapter"
             - []
 
     millwright_configuration.cache.warmer:
-        class: %millwright_configuration.cache_warmer.class%
+        class: "%millwright_configuration.cache_warmer.class%"
         arguments:
-            - @millwright_configuration.manager
+            - "@millwright_configuration.manager"
         tags:
             - { name: kernel.cache_warmer }
 
     millwright_configuration.builder_helper:
-        class: %millwright_configuration.builder_helper.class%
+        class: "%millwright_configuration.builder_helper.class%"
         arguments:
-            - @router
-            - @annotation_reader
-            - @service_container
+            - "@router"
+            - "@annotation_reader"
+            - "@service_container"
 
     millwright_configuration.registry:
         class: Millwright\Util\Request\OptionRegistry
@@ -55,6 +55,6 @@ services:
     millwright_configuration.twig.extension:
         class: Millwright\ConfigurationBundle\Twig\ConfigurationExtension
         arguments:
-            - @millwright_configuration.registry
+            - "@millwright_configuration.registry"
         tags:
             - { name: twig.extension }
