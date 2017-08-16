@@ -104,6 +104,6 @@ class ConfigCache implements CacheAdapterInterface
         $cache   = $this->createConfigCache($key);
         $success = null !== $cache && $cache->isFresh();
 
-        return $success ? include_once $cache : null;
+        return $success ? include_once $cache->getPath() : null;
     }
 }
