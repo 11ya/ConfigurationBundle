@@ -28,8 +28,8 @@ class ConfigurationExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'options_registry' => new \Twig_Function_Method($this, 'getOptions'),
-            'options_query'    => new \Twig_Function_Method($this, 'getQuery'),
+            new \Twig_SimpleFunction('options_registry', array($this, 'getOptions')),
+            new \Twig_SimpleFunction('options_query', array($this, 'getQuery')),
         );
     }
 
